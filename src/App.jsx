@@ -15,13 +15,13 @@ export default function App() {
 
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchMode, setSearchMode] = useState('linear'); // 'linear' | 'binary'
+  const [searchMode, setSearchMode] = useState('Linear'); // 'linear' | 'binary'
   const [searchTime, setSearchTime] = useState(null);
 
   // Sort state
   const [sortCol, setSortCol] = useState(null);
   const [sortDir, setSortDir] = useState('asc');
-  const [sortAlgo, setSortAlgo] = useState('merge'); // 'merge' | 'quick'
+  const [sortAlgo, setSortAlgo] = useState('Merge'); // 'merge' | 'quick'
   const [sortTime, setSortTime] = useState(null);
 
   const fileInputRef = useRef();
@@ -71,8 +71,8 @@ export default function App() {
       setSearchTime(null);
       return;
     }
-    const ITERATIONS = 500;
-    const searchFn = searchMode === 'binary' ? binarySearch : linearSearch;
+    const ITERATIONS = 100;
+    const searchFn = searchMode === 'Binary' ? binarySearch : linearSearch;
     // Warmup to avoid JIT skew
     searchFn(tableData.rows, searchQuery);
     const t0 = performance.now();
@@ -100,7 +100,7 @@ export default function App() {
     const source = displayRows.length ? displayRows : tableData.rows;
     const newDir = sortCol === col && sortDir === 'asc' ? 'desc' : 'asc';
     const SORT_ITERS = 100;
-    const sortFn = algo === 'quick' ? quickSort : mergeSort;
+    const sortFn = algo === 'Quick' ? quickSort : mergeSort;
     // Warmup
     sortFn([...source], col, newDir);
     const t0 = performance.now();
@@ -183,8 +183,8 @@ export default function App() {
                     value={searchMode}
                     onChange={e => setSearchMode(e.target.value)}
                   >
-                    <option value="linear">Linear Search</option>
-                    <option value="binary">Binary Search</option>
+                    <option value="Linear">Linear Search</option>
+                    <option value="Binary">Binary Search</option>
                   </select>
                   <button className="btn btn-primary" onClick={handleSearch}>Search</button>
                   {matchedIndices !== null && (
@@ -193,9 +193,9 @@ export default function App() {
                 </div>
                 {searchTime && (
                   <div className="stat-bar">
-                    {searchTime.algo} search → {searchTime.count} rows matched
-                    {' | '}avg per run: <strong>{searchTime.ms}ms</strong>
-                    {' | '}total ({searchTime.iterations} runs): {searchTime.totalMs}ms
+                    {searchTime.algo} Search → {searchTime.count} rows matched
+                    {' | '}Avg per run: <strong>{searchTime.ms}ms</strong>
+                    {' | '}Total ({searchTime.iterations} runs): {searchTime.totalMs}ms
                   </div>
                 )}
               </div>
@@ -205,19 +205,19 @@ export default function App() {
                 <label className="group-label">SORT ALGORITHM</label>
                 <div className="sort-algo-row">
                   <button
-                    className={`btn ${sortAlgo === 'merge' ? 'btn-primary' : 'btn-outline'}`}
-                    onClick={() => setSortAlgo('merge')}
+                    className={`btn ${sortAlgo === 'Merge' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setSortAlgo('Merge')}
                   >Merge Sort</button>
                   <button
-                    className={`btn ${sortAlgo === 'quick' ? 'btn-primary' : 'btn-outline'}`}
-                    onClick={() => setSortAlgo('quick')}
+                    className={`btn ${sortAlgo === 'Quick' ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setSortAlgo('Quick')}
                   >Quick Sort</button>
                 </div>
                 {sortTime && (
                   <div className="stat-bar">
-                    {sortTime.algo} sort on "{sortTime.col}"
-                    {' | '}avg per run: <strong>{sortTime.ms}ms</strong>
-                    {' | '}total ({sortTime.iterations} runs): {sortTime.totalMs}ms
+                    {sortTime.algo} Sort on "{sortTime.col}"
+                    {' | '}Avg per run: <strong>{sortTime.ms}ms</strong>
+                    {' | '}Total ({sortTime.iterations} runs): {sortTime.totalMs}ms
                   </div>
                 )}
               </div>
