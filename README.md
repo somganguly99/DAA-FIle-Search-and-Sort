@@ -1,4 +1,4 @@
-# TableViz
+# File Search and Sort
 
 A React + Vite app to load, view, search, and sort tabular data files.
 
